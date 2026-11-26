@@ -2,7 +2,7 @@
 
 **File:** `.github/workflows/legacy-build.yml`
 
-This is the vulnerable workflow from Section 5.1. It never runs: its job only runs in a repository named `lab-safety/this-workflow-never-runs`, which does not exist. Do not remove that `if:` line.
+This is the vulnerable workflow from Section 5.1. It never runs: its job only runs if the repository variable `LAB_RUN_VULNERABLE_WORKFLOW` is set, and nobody should ever set it. Do not remove that `if:` line.
 
 ## Tasks
 
