@@ -25,3 +25,15 @@ Create a fine-grained GitHub token with **no permissions** and a 1-day expiry, p
 ## Task 5: Triage
 
 Your instructor will give you three seeded alerts. For each one, decide: fix, or dismiss with the correct reason and a comment.
+
+The seeded alerts live on the `seed/alerts` branch. A fork copies only `main` by default, so bring the branch into your fork first:
+
+```bash
+git remote add upstream https://github.com/<training-org>/secure-coding-labs.git
+git fetch upstream seed/alerts
+git push origin upstream/seed/alerts:refs/heads/seed/alerts
+```
+
+Then open a pull request from `seed/alerts` to your `main` and let CodeQL, dependency review and secret scanning run on it. Do **not** merge it.
+
+You will also see one alert that was not seeded: `java/spring-disabled-csrf-protection` in `SecurityConfig`. Triage it too. Hint: what does this API use to authenticate, and does the browser send that automatically?
