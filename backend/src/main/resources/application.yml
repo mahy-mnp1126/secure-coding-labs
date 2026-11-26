@@ -44,6 +44,8 @@ app:
   web-root: ${java.io.tmpdir}/secure-coding-labs/www
   # Module 3 fix: store uploads here instead (outside the web root).
   upload-dir: ${java.io.tmpdir}/secure-coding-labs/uploads
+  # Monthly statements (PDF)
+  statements-dir: ${java.io.tmpdir}/secure-coding-labs/statements
   rates:
     # Module 7: the external partner API
     base-url: https://rates.partner.example
