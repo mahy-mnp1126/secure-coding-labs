@@ -1,0 +1,30 @@
+# Lab infrastructure for secure-coding-labs. Synthetic data only.
+# Every port is bound to 127.0.0.1 so nothing is reachable from the network.
+#   docker compose up -d        (Podman: podman compose up -d)
+#   docker compose down -v      (stop and delete the lab data)
+name: secure-coding-labs
+
+services:
+  keycloak:
+    # Lab identity provider: issues the JWTs the API expects (Modules 1-3, 6, 7)
+    image: quay.io/keycloak/keycloak:26.8.2
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: lab-admin-only   # lab only; never reuse
+      KC_HOSTNAME: http://127.0.0.1:8180            # fixes the token issuer
+      KC_HEALTH_ENABLED: "true"
+    volumes:
+      - ./keycloak/realm-labs.json:/opt/keycloak/data/import/realm-labs.json:ro
+    ports:
+      - "127.0.0.1:8180:8080"
+
+  postgres:
+    # Optional: the API uses in-memory H2 unless you run it with the "postgres" profile
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: labs
+      POSTGRES_USER: labs
+      POSTGRES_PASSWORD: labs-local-only            # lab only; never reuse
+    ports:
+      - "127.0.0.1:5432:5432"

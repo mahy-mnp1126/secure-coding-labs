@@ -1,0 +1,7 @@
+# Run with: ./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
+# after: docker compose up -d   (from the repository root)
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/labs
+    username: labs
+    password: ${LABS_DB_PASSWORD:labs-local-only}

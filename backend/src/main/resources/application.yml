@@ -1,0 +1,54 @@
+# secure-coding-labs: DELIBERATELY VULNERABLE TRAINING APP.
+# It listens on 127.0.0.1 only. Never expose it to a network or deploy it.
+server:
+  address: 127.0.0.1
+  port: 8081
+  error:
+    include-stacktrace: never
+    include-message: never
+
+spring:
+  application:
+    name: secure-coding-labs
+  datasource:
+    # In-memory H2 in PostgreSQL mode, so the labs run without Docker.
+    # Use the "postgres" profile with docker-compose for a real PostgreSQL.
+    url: jdbc:h2:mem:labs;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always          # schema.sql and data.sql reset the lab data on every start
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  jwt:
+    # Lab identity provider (Keycloak from docker-compose.yml)
+    issuer: http://127.0.0.1:8180/realms/labs
+    jwks-uri: http://127.0.0.1:8180/realms/labs/protocol/openid-connect/certs
+    audience: customer-api
+  # Module 3: the seed stores avatars inside this simulated public web root.
+  web-root: ${java.io.tmpdir}/secure-coding-labs/www
+  # Module 3 fix: store uploads here instead (outside the web root).
+  upload-dir: ${java.io.tmpdir}/secure-coding-labs/uploads
+  rates:
+    # Module 7: the external partner API
+    base-url: https://rates.partner.example
+
+logging:
+  pattern:
+    # cid = correlation id added by labs.common.CorrelationIdFilter (Module 6)
+    console: "%d{HH:mm:ss.SSS} %-5level [cid=%X{correlationId:-none}] %logger{36} - %msg%n"

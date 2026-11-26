@@ -1,0 +1,141 @@
+{
+  "realm": "labs",
+  "enabled": true,
+  "displayName": "secure-coding-labs (LAB ONLY)",
+  "sslRequired": "none",
+  "accessTokenLifespan": 900,
+  "roles": {
+    "realm": [
+      {
+        "name": "CUSTOMER",
+        "description": "Lab role CUSTOMER"
+      },
+      {
+        "name": "SUPPORT",
+        "description": "Lab role SUPPORT"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Lab role ADMIN"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "labs-cli",
+      "name": "Lab command-line client (LAB ONLY)",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "audience customer-api",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.custom.audience": "customer-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        },
+        {
+          "name": "roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "a11ce000-0000-4000-8000-000000000001",
+      "username": "alice",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Alice",
+      "lastName": "Example",
+      "email": "alice@labs.example",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "alice-lab-pass",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CUSTOMER"
+      ]
+    },
+    {
+      "id": "b0b00000-0000-4000-8000-000000000002",
+      "username": "bob",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Bob",
+      "lastName": "Example",
+      "email": "bob@labs.example",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "bob-lab-pass",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "CUSTOMER"
+      ]
+    },
+    {
+      "id": "5a990000-0000-4000-8000-000000000003",
+      "username": "support",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Sam",
+      "lastName": "Support",
+      "email": "support@labs.example",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "support-lab-pass",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "SUPPORT"
+      ]
+    },
+    {
+      "id": "ad000000-0000-4000-8000-000000000004",
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Avery",
+      "lastName": "Admin",
+      "email": "admin@labs.example",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin-lab-pass",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ADMIN"
+      ]
+    }
+  ]
+}

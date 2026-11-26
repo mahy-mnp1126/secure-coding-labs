@@ -1,0 +1,27 @@
+# =============================================================================
+# LAB SEED: DELIBERATELY VULNERABLE WORKFLOW (Module 5, exercise 5.4)
+# This file exists to be read and linted, never run. The job only runs in a
+# repository called "lab-safety/this-workflow-never-runs", which does not exist.
+# (A plain "if: false" would also work, but zizmor then skips the job as dead
+# code and hides most of the findings you are meant to discover.)
+# Do not remove the "if:" line and do not copy this file anywhere.
+#
+# Find the problems with:
+#   actionlint
+#   zizmor --persona=auditor .github/workflows/legacy-build.yml
+# =============================================================================
+# VULNERABLE workflow
+name: build
+on: pull_request_target           # runs with secrets and a write token, even for forks
+permissions: write-all
+jobs:
+  build:
+    if: github.repository == 'lab-safety/this-workflow-never-runs'   # LAB SAFETY SWITCH
+    runs-on: [ self-hosted ]      # on-prem runner, reachable from any PR
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}       # checks out untrusted code
+      - run: echo "Building ${{ github.event.pull_request.title }}"   # script injection
+      - run: mvn -B verify
+      - uses: some-org/deploy-action@main                      # mutable reference
