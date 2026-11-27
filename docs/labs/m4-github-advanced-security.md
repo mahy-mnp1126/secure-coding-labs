@@ -29,7 +29,7 @@ Your instructor will give you three seeded alerts. For each one, decide: fix, or
 The seeded alerts live on the `seed/alerts` branch. A fork copies only `main` by default, so bring the branch into your fork first:
 
 ```bash
-git remote add upstream https://github.com/<training-org>/secure-coding-labs.git
+git remote add upstream https://github.com/mahy-mnp1126/secure-coding-labs.git
 git fetch upstream seed/alerts
 git push origin upstream/seed/alerts:refs/heads/seed/alerts
 ```
