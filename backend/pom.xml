@@ -98,6 +98,13 @@
     </dependency>
 
     <!-- Tests -->
+    <!-- SEEDED ALERT 3 of 3 (Module 4, Task 5): known-vulnerable, test scope -->
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webmvc-test</artifactId>
